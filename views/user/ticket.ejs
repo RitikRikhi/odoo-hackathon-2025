@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket Form</title>
+  <link rel="stylesheet" href="../public/ticket.css">
+
+  <!-- css for tagify -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+</head>
+<body>
+
+  <h2><%= editing ? "Edit" : "Register" %> your Ticket</h2>
+  <form action="/submit-ticket" method="POST" enctype="multipart/form-data">
+    
+    <label for="fullName">Full Name</label>
+    <input type="text" id="fullName" name="fullName" value="<%= editing ? ticket.fullName : '' %>" required>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" value="<%= editing ? ticket.email : '' %>" required>
+
+
+    <label for="tags">Tags</label>
+    <input 
+      type="text" 
+      id="tags" 
+      name="tags" 
+      placeholder="e.g. urgent, login issue"
+      value="<%= editing && ticket.tags ? ticket.tags.join(',') : '' %>" 
+      required
+    >
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="5" required><%= editing ? ticket.description : '' %></textarea>
+
+    <label for="attachment">Attachment</label>
+    <input type="file" id="attachment" name="attachment" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+
+    <button type="submit">Submit Ticket</button>
+  </form>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script> //tagify js
+  <script>
+    // Initialize Tagify on the tags input
+    const tagsInput = document.querySelector('#tags');
+    new Tagify(tagsInput);
+  </script>
+
+</body>
+</html>
