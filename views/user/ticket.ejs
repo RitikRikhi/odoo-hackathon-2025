@@ -26,9 +26,11 @@
       id="tags" 
       name="tags" 
       placeholder="e.g. urgent, login issue"
-      value="<%= editing && ticket.tags ? ticket.tags.join(',') : '' %>" 
       required
     >
+
+    <label for="question">Question</label>
+    <input type="text" id="question" name="question" value="<%= editing ? ticket.question : '' %>" required>
 
     <label for="description">Description</label>
     <textarea id="description" name="description" rows="5" required><%= editing ? ticket.description : '' %></textarea>

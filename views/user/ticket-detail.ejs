@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket Details</title>
+
+  <link rel="stylesheet" href="../public/ticket-detail.css">
+</head>
+<body>
+
+  <div class="ticket-details">
+    <h2><%= ticket.question %></h2>
+
+    <div class="detail name-and-tags">
+      <div>
+        <div class="label">Full Name</div>
+        <div class="value"><%= ticket.fullName %></div>
+      </div>
+      <div>
+        <div class="label">Tags</div>
+        <div class="tags-container">
+          <% 
+            const tags = Array.isArray(ticket.tags) ? ticket.tags : (ticket.tags || '').split(',');
+            tags.forEach(tag => { 
+          %>
+            <span class="tag"><%= tag.trim() %></span>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail">
+      <div class="label">Description</div>
+      <div class="value"><%= ticket.description %></div>
+    </div>
+
+    <div class="detail">
+      <div class="label">Attachment</div>
+      <div class="value attachment-preview">
+        <!-- Check it once then remove the comment -->
+        <!-- <% if (ticket.attachment) { 
+             const fileExt = ticket.attachment.split('.').pop().toLowerCase();
+             const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExt);
+        %>
+          <% if (isImage) { %>
+            <img src="/uploads/<%= ticket.attachment %>" alt="Attachment">
+          <% } else { %>
+            <a href="/uploads/<%= ticket.attachment %>" target="_blank">Download/View File</a>
+          <% } %>
+        <% } else { %>
+          No attachment provided.
+        <% } %> -->
+      </div>
+    </div>
+
+
+    <!-- check here too  -->
+
+    <div class="vote-buttons">
+      <form action="/ticket/<%= ticket._id %>/upvote" method="POST">
+        <button type="submit">👍 Upvote</button>
+      </form>
+      <form action="/ticket/<%= ticket._id %>/downvote" method="POST">
+        <button type="submit">👎 Downvote</button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>

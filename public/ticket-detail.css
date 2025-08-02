@@ -1,0 +1,74 @@
+.ticket-details {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .detail {
+    margin-bottom: 20px;
+  }
+
+  .label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+  }
+
+  .value {
+    color: #333;
+  }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background-color: #dfe6e9;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+  }
+
+  .name-and-tags {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .attachment-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  .vote-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .vote-buttons button {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .vote-buttons button:hover {
+    background-color: #dfe6e9;
+  }
