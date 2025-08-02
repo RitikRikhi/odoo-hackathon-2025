@@ -38,7 +38,7 @@ return(
               <Mail className="w-4 h-4"/>Email
             </label>
 
-            <input onChange={(e)=>{setEmail}} className="w-full focus:ring-2 focus:ring-blue-200  focus:border-blue-400 border border-gray-200 rounded transition-all py-1 pl-2 " placeholder="user@gmail.com" required type="email"/>
+            <input onChange={(e)=>{setEmail(e.target.value)}} className="w-full focus:ring-2 focus:ring-blue-200  focus:border-blue-400 border border-gray-200 rounded transition-all py-1 pl-2 " placeholder="user@gmail.com" required type="email"/>
 
           </div>
           <div className="space-y-1">
@@ -60,13 +60,15 @@ return(
           </div>
 
           <button type="submit" className="w-full flex justify-center bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg items-center font-medium hover:shadow-md active:scale-95 gap-2 " 
-          onClick={async()=>{
+          onSubmit={async()=>{
             const payload={name,email,password,phone};
             console.log("Sending data: ",payload);
             try{
                 const res= await axios.post("http://localhost:5000/api/auth/register",payload,{
                     headers:{'Content-Type' : 'application/json'}
                 })
+
+                navigate('/create')
             console.log("Signup success: ",res.data)
        
             } catch(err){

@@ -4,7 +4,7 @@ const authController = require('../controllers/authController');
 
 // Register user
 router.post('/register', authController.register);
-
+router.post('/signin', authController.signin);
 // Request password reset
 router.post('/request-password-reset', authController.requestPasswordReset);
 
