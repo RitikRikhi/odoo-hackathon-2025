@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Tickets - Support Dashboard</title>
+    <link rel="stylesheet" href="../public/view-all.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Support Tickets</h1>
+            <p>Manage and track all customer support requests</p>
+        </div>
+
+        <div class="top-bar">
+            <form action="/tickets" method="GET" class="search-form">
+                <input 
+                    type="text" 
+                    id="searchBar" 
+                    name="search" 
+                    class="search-input"
+                    placeholder="Search ..."
+                >
+                <button type="submit" class="button">🔍 Search</button>
+            </form>
+            <a href="/ask" class="button">➕ New Ticket</a>
+        </div>
+
+        <% if (tickets && tickets.length > 0) { %>
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <div class="stat-number"><%= tickets.length %></div>
+                    <div class="stat-label">Total Tickets</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number"><%= search ? tickets.length : tickets.length %></div>
+                    <div class="stat-label"><%= search ? 'Search Results' : 'All Tickets' %></div>
+                </div>
+            </div>
+
+            <div class="tickets-container">
+                <div class="tickets-header">
+                    <h2><%= search ? `Search Results for "${search}"` : 'All Tickets' %></h2>
+                    <% if (search) { %>
+                        <a href="/tickets" style="color: #667eea; text-decoration: none;">← View All Tickets</a>
+                    <% } %>
+                </div>
+
+                <div class="tickets-list">
+                    <% tickets.forEach((ticket, index) => { %>
+                        <div class="ticket-item" onclick="window.location.href='/ticket/<%= ticket.id || index %>'">
+                            <div class="ticket-header">
+                                <div class="ticket-title"><%= ticket.question %></div>
+                                <div class="ticket-id">#<%= ticket.id || (index + 1) %></div>
+                            </div>
+
+                            <div class="ticket-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">👤 Name:</span>
+                                    <span><%= ticket.fullName %></span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">📧 Email:</span>
+                                    <span><%= ticket.email %></span>
+                                </div>
+                                <% if (ticket.createdAt) { %>
+                                    <div class="meta-item">
+                                        <span class="meta-label">📅 Created:</span>
+                                        <span><%= new Date(ticket.createdAt).toLocaleDateString() %></span>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <div class="ticket-description">
+                                <%= ticket.description.length > 150 ? ticket.description.substring(0, 150) + '...' : ticket.description %>
+                            </div>
+
+                            <% if (ticket.tags) { %>
+                                <div class="tags-container">
+                                    <% 
+                                        const tags = Array.isArray(ticket.tags) ? ticket.tags : (ticket.tags || '').split(',');
+                                        tags.forEach(tag => { 
+                                            if (tag.trim()) {
+                                    %>
+                                        <span class="tag"><%= tag.trim() %></span>
+                                    <% 
+                                            }
+                                        }) 
+                                    %>
+                                </div>
+                            <% } %>
+
+                            <div class="ticket-actions">
+                                <a href="/ticket/<%= ticket.id || index %>" class="action-btn" onclick="event.stopPropagation()">👁️ View</a>
+                                
+                                <% if (ticket.attachment) { %>
+                                    <a href="/uploads/<%= ticket.attachment %>" class="action-btn" target="_blank" onclick="event.stopPropagation()">📎 File</a>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="tickets-container">
+                <div class="no-tickets">
+                    <div class="no-tickets-icon">🎫</div>
+                    <h3><%= search ? `No tickets found for "${search}"` : 'No tickets available' %></h3>
+                    <p><%= search ? 'Try adjusting your search terms or' : 'Get started by creating your first ticket.' %></p>
+                    <br>
+                    <a href="<%= search ? '/tickets' : '/ask' %>" class="button">
+                        <%= search ? '← View All Tickets' : '➕ Create First Ticket' %>
+                    </a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        // Add some interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-focus search input if there's no search term
+            const searchInput = document.getElementById('searchBar');
+            if (searchInput && !searchInput.value) {
+                searchInput.focus();
+            }
+
+            // Add keyboard shortcut for search (Ctrl+K or Cmd+K)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            });
+
+            // Add smooth scrolling for ticket list
+            const ticketsList = document.querySelector('.tickets-list');
+            if (ticketsList) {
+                ticketsList.style.scrollBehavior = 'smooth';
+            }
+        });
+    </script>
+</body>
+</html>
